@@ -1,4 +1,5 @@
 import { useState } from "react";
+import TodoItem from "./TodoItem";
 
 class Todo {
   constructor(id, title, body) {
@@ -38,14 +39,13 @@ const TodoList = () => {
   };
 
   return (
-    <div className="min-2-[800px] max-w-[1200px]">
+    <div className=" flex flex-col min-2-[800px] max-w-[1200px]">
       <div
-        className="mt-3 min-h-3 max-h-56 max-w-full bg-slate-300
-      "
+        className=" mt-3 p-4 min-h-3 max-h-56 max-w-full bg-slate-300 rounded-lg shadow"
         id="inputContainer"
       >
         <input
-          className="border border-slate-950 mr-2"
+          className="border-2 border-slate-400 mr-2 p-2 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-150 ease-in-out"
           type="text"
           value={title}
           onChange={(e) => {
@@ -54,7 +54,7 @@ const TodoList = () => {
           placeholder="제목을 입력해주세요."
         />
         <input
-          className="border border-slate-950 mr-2"
+          className="border-2 border-slate-400 mr-2 p-2 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-150 ease-in-out"
           type="text"
           value={body}
           onChange={(e) => {
@@ -62,69 +62,45 @@ const TodoList = () => {
           }}
           placeholder="내용을 입력해주세요."
         />
-        <button className="bg-indigo-600" onClick={() => AddTodo(title, body)}>
+        <button
+          className="bg-indigo-600 text-white py-2 px-4 rounded hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition duration-150 ease-in-out"
+          onClick={() => AddTodo(title, body)}
+        >
           추가
         </button>
       </div>
-      <div id="displayContainer">
-        <h2>할 일 목록</h2>
+
+      <div className="mt-5" id="displayContainer">
+        <h2 className="text-2xl font-bold flex flex-1">TODO 목록</h2>
         <ul>
           {/* 완료하지 않은 todo목록 */}
           {todoList.map(
             (todo) =>
               !todo.isDone && (
-                <li
-                  className="flex border-2 border-slate-950 mt-1 mb-1"
+                <TodoItem
                   key={todo.id}
-                >
-                  <div className="w-4/6">
-                    {todo.title}
-                    {todo.body}
-                  </div>
-                  <div className="flex-1" id="btnContainer">
-                    <button
-                      className=" ml-3 mr-3 border-4 border-green-500 hover:bg-green-500"
-                      onClick={() => onChangeHandle(todo.id)}
-                    >
-                      완료
-                    </button>
-                    <button
-                      className=" ml-3 mr-3 border-4 border-red-600"
-                      onClick={() => deleteTodo(todo.id)}
-                    >
-                      삭제
-                    </button>
-                  </div>
-                </li>
+                  todo={todo}
+                  onChangeHandle={onChangeHandle}
+                  deleteTodo={deleteTodo}
+                />
               )
           )}
         </ul>
-        <h2>완료된 할 일</h2>
+        <div className="mt-5 border-3 border-t border-gray-200">
+          {/*구분선*/}
+        </div>
+
+        <h2 className="mt-5 text-2xl font-bold flex flex-1">완료된 TODO</h2>
         <ul>
           {todoList.map(
             (todo) =>
               todo.isDone && (
-                <li
-                  className="flex border-2 border-slate-950 mt-1 mb-1"
+                <TodoItem
                   key={todo.id}
-                >
-                  {todo.title}
-                  {todo.body}
-                  <div className="flex-1" id="btnContainer">
-                    <button
-                      className="border-4 border-green-500"
-                      onClick={() => onChangeHandle(todo.id)}
-                    >
-                      취소
-                    </button>
-                    <button
-                      className="border-4 border-red-600"
-                      onClick={() => deleteTodo(todo.id)}
-                    >
-                      삭제
-                    </button>
-                  </div>
-                </li>
+                  todo={todo}
+                  onChangeHandle={onChangeHandle}
+                  deleteTodo={deleteTodo}
+                />
               )
           )}
         </ul>
