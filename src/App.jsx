@@ -1,12 +1,12 @@
 import "./App.css";
 import Header from "./components/Header";
-import TodoList from "./components/TodoList";
+import Todo from "./components/Todo";
 
 export default function App() {
   return (
     <div>
       <Header />
-      <TodoList />
+      <Todo />
     </div>
   );
 }
