@@ -11,10 +11,14 @@ class Todo {
 }
 
 const TodoList = () => {
+  // 입력 값들
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
-
+  // 리스트를 저장하기 위한 배열
   const [todoList, setTodoList] = useState([]);
+
+  const [todoTotalCnt, setTodoTotalCnt] = useState(0);
+  const [todoDoneCnt, setTodoDoneCnt] = useState(0);
 
   const AddTodo = (title, body) => {
     if (!title && !body) {
@@ -26,6 +30,7 @@ const TodoList = () => {
     } else {
       const newTodo = new Todo(todoList.length, title, body);
       setTodoList([...todoList, newTodo]);
+      setTodoTotalCnt(todoTotalCnt + 1);
     }
 
     setTitle("");
@@ -52,6 +57,7 @@ const TodoList = () => {
       return todo; // 다른 todo는 변경 없이 그대로 반환
     });
     setTodoList(updatedTodos); // 상태 업데이트
+    setTodoDoneCnt(updatedTodos.filter((todo) => todo.isDone).length); // 완료된 todo 카운트업데이트
   };
 
   return (
@@ -88,7 +94,9 @@ const TodoList = () => {
       </div>
 
       <div className="mt-5" id="displayContainer">
-        <h2 className="text-2xl font-bold flex flex-1">Working ☑️</h2>
+        <div className="text-2xl font-bold flex flex-1">
+          Working ☑️ {todoTotalCnt - todoDoneCnt}개
+        </div>
         <ul>
           {/* 완료하지 않은 todo목록 */}
           {todoList
@@ -106,7 +114,9 @@ const TodoList = () => {
           {/*구분선*/}
         </div>
 
-        <h2 className="mt-5 text-2xl font-bold flex flex-1">Done ✅</h2>
+        <div className="mt-5 text-2xl font-bold flex flex-1">
+          Done ✅ {todoDoneCnt}개
+        </div>
         <ul>
           {todoList
             .filter((todo) => todo.isDone)
