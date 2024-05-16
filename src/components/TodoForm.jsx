@@ -1,7 +1,7 @@
 import { useState } from "react";
 import TodoList from "./TodoList";
 
-class todo {
+class Todo {
   constructor(id, title, body) {
     (this.id = id),
       (this.title = title),
@@ -29,7 +29,7 @@ const TodoForm = () => {
     } else if (!body) {
       alert("TODO 내용이 필요합니다!!");
     } else {
-      const newTodo = new todo(todoList.length, title, body);
+      const newTodo = new Todo(todoList.length, title, body);
       const updatedList = [...todoList, newTodo];
       setTodoList(updatedList);
       updateCnt(updatedList);
