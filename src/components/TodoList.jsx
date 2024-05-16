@@ -5,6 +5,7 @@ import TodoItem from "./TodoItem";
 const TodoList = ({
   todoList,
   todoTotalCnt,
+  todoNotDoneCnt,
   todoDoneCnt,
   onChangeHandle,
   deleteTodo,
@@ -12,7 +13,7 @@ const TodoList = ({
   return (
     <div className="mt-5" id="displayContainer">
       <div className="text-2xl font-bold flex flex-1">
-        Working ☑️ {todoTotalCnt - todoDoneCnt}개
+        Working ☑️ {todoNotDoneCnt}개
       </div>
       <ul>
         {/* 완료하지 않은 todo목록 */}
@@ -31,6 +32,10 @@ const TodoList = ({
 
       <div className="mt-5 text-2xl font-bold flex flex-1">
         Done ✅ {todoDoneCnt}개
+        <div className="ml-3">
+          {todoTotalCnt > 0 &&
+            ` - ${(todoDoneCnt / todoTotalCnt).toFixed(2) * 100}% 완료`}
+        </div>
       </div>
       <ul>
         {todoList

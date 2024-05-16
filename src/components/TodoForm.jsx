@@ -10,7 +10,7 @@ class todo {
   }
 }
 
-const Todo = () => {
+const TodoForm = () => {
   // 입력 값들
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
@@ -19,6 +19,7 @@ const Todo = () => {
 
   const [todoTotalCnt, setTodoTotalCnt] = useState(0);
   const [todoDoneCnt, setTodoDoneCnt] = useState(0);
+  const [todoNotDoneCnt, setTodoNotDoneCnt] = useState(0);
 
   const AddTodo = (title, body) => {
     if (!title && !body) {
@@ -29,10 +30,11 @@ const Todo = () => {
       alert("TODO 내용이 필요합니다!!");
     } else {
       const newTodo = new todo(todoList.length, title, body);
-      setTodoList([...todoList, newTodo]);
-      setTodoTotalCnt(todoTotalCnt + 1);
+      const updatedList = [...todoList, newTodo];
+      setTodoList(updatedList);
+      updateCnt(updatedList);
+      setTodoTotalCnt(updatedList.length);
     }
-
     setTitle("");
     setBody("");
   };
@@ -46,7 +48,10 @@ const Todo = () => {
 
   const deleteTodo = (id) => {
     // 선택한 항목의 id를 제외한 나머지 항목들로 구성된 새 배열을 만듭니다.
-    setTodoList(todoList.filter((todo) => todo.id !== id));
+    const updatedList = todoList.filter((todo) => todo.id !== id);
+    setTodoList(updatedList);
+    updateCnt(updatedList);
+    setTodoTotalCnt(updatedList.length);
   };
 
   const onChangeHandle = (id) => {
@@ -57,7 +62,12 @@ const Todo = () => {
       return todo; // 다른 todo는 변경 없이 그대로 반환
     });
     setTodoList(updatedTodos); // 상태 업데이트
-    setTodoDoneCnt(updatedTodos.filter((todo) => todo.isDone).length); // 완료된 todo 카운트업데이트
+    updateCnt(updatedTodos); // 완료된 todo 카운트업데이트
+  };
+
+  const updateCnt = (list) => {
+    setTodoDoneCnt(list.filter((todo) => todo.isDone).length);
+    setTodoNotDoneCnt(list.filter((todo) => !todo.isDone).length);
   };
 
   return (
@@ -96,6 +106,7 @@ const Todo = () => {
       <TodoList
         todoList={todoList}
         todoTotalCnt={todoTotalCnt}
+        todoNotDoneCnt={todoNotDoneCnt}
         todoDoneCnt={todoDoneCnt}
         onChangeHandle={onChangeHandle}
         deleteTodo={deleteTodo}
@@ -104,4 +115,4 @@ const Todo = () => {
   );
 };
 
-export default Todo;
+export default TodoForm;
