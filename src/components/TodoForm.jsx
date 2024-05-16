@@ -37,6 +37,7 @@ const TodoForm = () => {
     }
     setTitle("");
     setBody("");
+    document.getElementById("titleInput").focus();
   };
 
   const handleKeyDown = (e) => {
@@ -84,6 +85,7 @@ const TodoForm = () => {
             setTitle(e.target.value);
           }}
           placeholder="제목을 입력해주세요."
+          id="titleInput"
         />
         <input
           className="border-2 border-slate-400 mr-2 p-2 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-150 ease-in-out"
